@@ -1,0 +1,13 @@
+# Data files — too large for GitHub, download from Kaggle
+data/application_record.csv
+data/credit_record.csv
+data/cleaned_data.csv
+
+# System files
+.DS_Store
+__pycache__/
+*.pyc
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
