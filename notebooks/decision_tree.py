@@ -53,3 +53,9 @@ model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
 print("\n              Classification Report ")
 print(classification_report(y_test, y_pred))
+
+# Result:
+# The model showed a significant improvement in performance for the minority group (Class 1).
+# The recall rate for high-risk applicants increased from 0.01 to 0.39.
+# Although the overall accuracy decreased to 0.67, this version is more practical for credit risk management
+# because it successfully identifies a larger proportion of potential defaulters.
