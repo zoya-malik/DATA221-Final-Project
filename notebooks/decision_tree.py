@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import classification_report, ConfusionMatrixDisplay, roc_auc_score
 
-#Load data
+# Load data
 df = pd.read_csv('../data/cleaned_data.csv')
 print(f"Original Dataset Shape: {df.shape}")
 
@@ -34,3 +34,22 @@ X_train, X_test = X_train.align(X_test, join='left', axis=1, fill_value=0)
 
 print(f"X_train shape: {X_train.shape}")
 print(f"X_test shape: {X_test.shape}")
+
+# Model Training
+
+# First attempt
+# Set max_depth to limit depth to prevent overfitting
+
+# model = DecisionTreeClassifier(max_depth=5, random_state=42)
+# model.fit(X_train, y_train)
+
+# Result: High Accuracy (0.88), but Recall for Class 1 is near 0.
+# Observation: Model is biased towards the majority class (Class 0).
+
+# Second attempt
+# Use "class_weight=balanced" to avoid errors in minority classes.
+model = DecisionTreeClassifier(max_depth=5, random_state=42, class_weight='balanced')
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+print("\n              Classification Report ")
+print(classification_report(y_test, y_pred))
