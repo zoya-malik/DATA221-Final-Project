@@ -95,3 +95,15 @@ print("\n[SUCCESS] Tuning plot saved to ../results/depth_tuning_plot.png")
 # As seen in the tuning plot, beyond depth 5, the Overall Accuracy begins to decline while Recall continues to rise.
 # This is a classic sign of Overfitting, where the model memorizes noise instead of learning general patterns.
 # A depth of 5 provides the best balance between predictive power and model stability.
+
+# Results visualization
+importances = pd.Series(model.feature_importances_, index=X_train.columns)
+plt.figure(figsize=(10, 6))
+importances.nlargest(10).sort_values().plot(kind='barh', color='salmon')
+plt.title('Top 10 Decision Factors for Credit Approval')
+plt.tight_layout()
+plt.savefig('../results/decision_tree_feature_importance.png')
+
+ConfusionMatrixDisplay.from_estimator(model, X_test, y_test, cmap='Reds')
+plt.savefig('../results/decision_tree_confusion_matrix.png')
+
