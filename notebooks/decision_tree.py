@@ -19,15 +19,18 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42
 )
 
-cat_cols = X_train.select_dtypes(include=['object']).columns.tolist()
-
 # Identify Category Feature Columns
-cat_cols = X_train.select_dtypes(include=['object']).columns.tolist()
+# A Pandas warning appeared when running the code.
+# Asked Gemini for help to modify this line of code to eliminate the warning.
+cat_cols = X_train.select_dtypes(include=['object', 'string']).columns.tolist()
 
 # Encode separately and remove redundant dimensions
 X_train = pd.get_dummies(X_train, columns=cat_cols, drop_first=True)
 X_test = pd.get_dummies(X_test, columns=cat_cols, drop_first=True)
 
+# Align the column structure of the test set and the training set
+# to avoid code crashes due to mismatches.
+X_train, X_test = X_train.align(X_test, join='left', axis=1, fill_value=0)
 
 print(f"X_train shape: {X_train.shape}")
 print(f"X_test shape: {X_test.shape}")
