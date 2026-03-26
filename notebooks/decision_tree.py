@@ -1,3 +1,7 @@
+#DATA 221 — Introduction to Data Science
+#Author: Siyi Ye
+#Dataset: Credit Card Approval Prediction (Kaggle)
+
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
