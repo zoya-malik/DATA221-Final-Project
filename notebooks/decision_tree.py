@@ -112,21 +112,21 @@ ConfusionMatrixDisplay.from_estimator(model, X_test, y_test, cmap='Reds')
 plt.savefig('../results/decision_tree_confusion_matrix.png')
 
 from sklearn.tree import plot_tree
-final_model = model
-plt.figure(figsize=(16, 10))
-plot_tree(final_model,
+# Train a model with a depth of 3 specifically for visualization.
+viz_model = DecisionTreeClassifier(max_depth=3, random_state=42, class_weight='balanced')
+viz_model.fit(X_train, y_train)
+
+plt.figure(figsize=(20, 10))
+plot_tree(viz_model,
           feature_names=X_train.columns.tolist(),
           class_names=['Good', 'Bad'],
           filled=True,
-          max_depth=3,
-          impurity=True,
           proportion=True,
           rounded=True,
           precision=2,
-          fontsize=9,
-          label='none'
-)
-plt.title("Primary Decision Logic (Top 2 Levels)", fontsize=20)
-plt.tight_layout()
+          fontsize=12,
+          impurity=True)
 
-plt.show()
+plt.title("Final Decision Tree Structure (3 Levels Only)")
+plt.savefig('../results/clean_tree.png', dpi=300)
+
