@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import classification_report, ConfusionMatrixDisplay, roc_auc_score
+from sklearn.metrics import roc_curve, roc_auc_score, RocCurveDisplay
 
 # Load data
 df = pd.read_csv('../data/cleaned_data.csv')
@@ -92,13 +93,16 @@ plt.legend()
 plt.grid(True)
 
 plt.savefig('../results/depth_tuning_plot.png')
-print("\n[SUCCESS] Tuning plot saved to ../results/depth_tuning_plot.png")
 
 # Result:
 # Although the highest Recall was achieved at depth 15, I chose depth 5 as the final model.
 # As seen in the tuning plot, beyond depth 5, the Overall Accuracy begins to decline while Recall continues to rise.
 # This is a classic sign of Overfitting, where the model memorizes noise instead of learning general patterns.
 # A depth of 5 provides the best balance between predictive power and model stability.
+
+y_probs = model.predict_proba(X_test)[:, 1]
+auc_score = roc_auc_score(y_test, y_probs)
+print(f"\n[METRIC] Decision Tree AUC Score: {auc_score:.4f}")
 
 # Results visualization
 importances = pd.Series(model.feature_importances_, index=X_train.columns)
@@ -129,4 +133,19 @@ plot_tree(viz_model,
 
 plt.title("Final Decision Tree Structure (3 Levels Only)")
 plt.savefig('../results/clean_tree_no_placeholder.png', dpi=300)
+
+from sklearn.metrics import precision_score, recall_score, f1_score, roc_auc_score
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
+f1 = f1_score(y_test, y_pred)
+y_probs = model.predict_proba(X_test)[:, 1]
+auc = roc_auc_score(y_test, y_probs)
+
+print("\nFinal Model Test Metrics")
+
+print(f"Precision: {precision:.4f}")
+print(f"Recall:    {recall:.4f}")
+print(f"F1 Score:  {f1:.4f}")
+print(f"ROC-AUC:   {auc:.4f}")
+
 
