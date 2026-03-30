@@ -128,5 +128,5 @@ plot_tree(viz_model,
           impurity=True)
 
 plt.title("Final Decision Tree Structure (3 Levels Only)")
-plt.savefig('../results/clean_tree.png', dpi=300)
+plt.savefig('../results/clean_tree_no_placeholder.png', dpi=300)
 
