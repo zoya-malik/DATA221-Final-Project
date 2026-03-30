@@ -100,10 +100,6 @@ plt.savefig('../results/depth_tuning_plot.png')
 # This is a classic sign of Overfitting, where the model memorizes noise instead of learning general patterns.
 # A depth of 5 provides the best balance between predictive power and model stability.
 
-y_probs = model.predict_proba(X_test)[:, 1]
-auc_score = roc_auc_score(y_test, y_probs)
-print(f"\n[METRIC] Decision Tree AUC Score: {auc_score:.4f}")
-
 # Results visualization
 importances = pd.Series(model.feature_importances_, index=X_train.columns)
 plt.figure(figsize=(10, 6))
@@ -157,13 +153,14 @@ plt.title("Final Decision Tree Structure (3 Levels Only)")
 plt.savefig('../results/clean_tree_no_placeholder.png', dpi=300)
 
 from sklearn.metrics import precision_score, recall_score, f1_score, roc_auc_score
-precision = precision_score(y_test, y_pred)
-recall = recall_score(y_test, y_pred)
-f1 = f1_score(y_test, y_pred)
+y_pred_final = model.predict(X_test)
+precision = precision_score(y_test, y_pred_final)
+recall = recall_score(y_test, y_pred_final)
+f1 = f1_score(y_test, y_pred_final)
 y_probs = model.predict_proba(X_test)[:, 1]
 auc = roc_auc_score(y_test, y_probs)
 
-print("\nFinal Model Test Metrics")
+print("\nFinal Model Test Metrics(at Depth 5)")
 
 print(f"Precision: {precision:.4f}")
 print(f"Recall:    {recall:.4f}")
