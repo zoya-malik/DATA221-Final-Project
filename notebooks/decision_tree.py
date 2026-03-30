@@ -115,6 +115,28 @@ plt.savefig('../results/decision_tree_feature_importance.png')
 ConfusionMatrixDisplay.from_estimator(model, X_test, y_test, cmap='Reds')
 plt.savefig('../results/decision_tree_confusion_matrix.png')
 
+from sklearn.metrics import roc_curve, roc_auc_score, RocCurveDisplay
+
+y_probs = model.predict_proba(X_test)[:, 1]
+auc_score = roc_auc_score(y_test, y_probs)
+print(f"\n[METRIC] Decision Tree AUC Score: {auc_score:.4f}")
+
+plt.figure(figsize=(8, 6))
+RocCurveDisplay.from_estimator(
+    model,
+    X_test,
+    y_test,
+    name='Decision Tree',
+    curve_kwargs={'color': 'darkorange'}
+)
+plt.plot([0, 1], [0, 1], color='navy', linestyle='--')
+plt.title(f'ROC Curve (AUC = {auc_score:.2f})')
+plt.xlabel('False Positive Rate (1 - Specificity)')
+plt.ylabel('True Positive Rate (Recall)')
+plt.grid(True)
+
+plt.savefig('../results/decision_tree_roc_curve.png', dpi=300)
+
 from sklearn.tree import plot_tree
 # Train a model with a depth of 3 specifically for visualization.
 viz_model = DecisionTreeClassifier(max_depth=3, random_state=42, class_weight='balanced')
